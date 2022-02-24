@@ -11,6 +11,7 @@
 * Boost pack movement
 * Power ups?
 * Enemy damage/health
+* Enemy shooting for small enemies
 * Slam with damage
 
 ### Controls:
