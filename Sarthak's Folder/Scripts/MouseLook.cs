@@ -12,7 +12,7 @@ public class MouseLook : MonoBehaviour
     void Awake()
     {
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
         playerBody = transform.parent.transform;
     }
 
