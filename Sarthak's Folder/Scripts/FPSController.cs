@@ -23,6 +23,10 @@ public class FPSController : MonoBehaviour
     public float jumpHeight = 10f;
     bool jetpackUsed = false;
     bool movementSet;
+    public GameObject boostSFX;
+    public AudioClip jumpSFX;
+    public AudioClip dashSFX;
+
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -56,6 +60,11 @@ public class FPSController : MonoBehaviour
                 _anim.SetInteger("state", 3);
                 currState = FSMStates.Dashing;
                 movementSet = true;
+                Vector3 posn = transform.position;
+                GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
+                boost.transform.parent = gameObject.transform;
+                boost.transform.Rotate(new Vector3(0, 180, 0));
+                AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
             }
             moveDirection = input;
             jetpackUsed = false;
@@ -69,6 +78,7 @@ public class FPSController : MonoBehaviour
                 currState = FSMStates.Jumping;
                 Debug.Log(currState);
                 movementSet = true;
+                AudioSource.PlayClipAtPoint(jumpSFX, Camera.main.transform.position);
             }
             else
             {
@@ -87,7 +97,11 @@ public class FPSController : MonoBehaviour
                     _anim.SetInteger("state", 3);
                     currState = FSMStates.Dashing;
                     jetpackUsed = true;
-                    
+                    Vector3 posn = transform.position;
+                    GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
+                    boost.transform.parent = gameObject.transform;
+                    boost.transform.Rotate(new Vector3(0, 180, 0));
+                    AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
                 }
             }
             input.y = moveDirection.y;

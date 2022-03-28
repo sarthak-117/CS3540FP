@@ -3951,6 +3951,9 @@ MonoBehaviour:
   boostHeight: 10
   gravity: 9.81
   jumpHeight: 10
+  boostSFX: {fileID: 5876603013316524374, guid: 301b639237b6eab4780a08d0d949ac45, type: 3}
+  jumpSFX: {fileID: 8300000, guid: 32dca3ea49f7a3b459e19f4d4da1d0f4, type: 3}
+  dashSFX: {fileID: 8300000, guid: d6ae7092895b6a24b9cd673e5097f7ed, type: 3}
 --- !u!114 &8698583693161187011
 MonoBehaviour:
   m_ObjectHideFlags: 0

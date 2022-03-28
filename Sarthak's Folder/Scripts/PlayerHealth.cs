@@ -31,8 +31,10 @@ public class PlayerHealth : MonoBehaviour
 
     void PlayerDies()
     {
-        Debug.Log("Player dies");
+        //Debug.Log("Player dies");
         //Destroy(gameObject);
-        
+        Animator anim = GetComponent<Animator>();
+        anim.SetInteger("state", 4);
+        // game over using level manager here
     }
 }
