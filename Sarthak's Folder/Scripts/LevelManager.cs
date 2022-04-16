@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
     {
         /// <summary>method to set timerText to current countDown value</summary>
         scoreText.text =
-            "Player Score: "+ playerScore.ToString();
+            "Data Left: " + PickupActions.pickupCount;
     }
 
     void SetGameOverStatus(string gameTextMessage, AudioClip statusSFX)
@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
         // call SetGameOverStatus with "GAME OVER!"
         SetGameOverStatus("YOU LOSE!", loseSFX);
         // slow down background music
-        Camera.main.GetComponent<AudioSource>().pitch = 0.5f;
+        //Camera.main.GetComponent<AudioSource>().pitch = 0.5f;
         Invoke("LoadCurrentLevel", 3);
         //Invoke("LoadNextLevel", 5);
     }
@@ -131,10 +131,10 @@ public class LevelManager : MonoBehaviour
         // call SetGameOverStatus with "YOU WIN!"
         SetGameOverStatus("YOU WIN!", winSFX);
         // speed up background music
-        Camera.main.GetComponent<AudioSource>().pitch = 2;
+        //Camera.main.GetComponent<AudioSource>().pitch = 2;
         if (SceneManager.GetActiveScene().buildIndex != 2)
         {
-            Invoke("LoadNextLevel", 5);
+            //Invoke("LoadNextLevel", 5);
         }
     }
 

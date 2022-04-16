@@ -11,7 +11,6 @@ public class ShooterBehavior : MonoBehaviour
     public float rangeOfSight = 15f;
     public float moveSpeed = 0.5f;
     public float health = 100f;
-    //public float distanceToChase = 15f;
     private bool closeEnough = false;
     // Start is called before the first frame update
     void Start()
@@ -27,30 +26,35 @@ public class ShooterBehavior : MonoBehaviour
     void Update()
     {
         //Checks that target is within the range of sight
-        if (Vector3.Distance(player.position, transform.position) < rangeOfSight)
+        if (!LevelManager.isGameOver)
         {
-            if (Vector3.Distance(player.position, transform.position) > 7)
+
+            if (Vector3.Distance(player.position, transform.position) < rangeOfSight)
             {
-                Vector3 target = player.position;
-                target.y = 0;
-                transform.position = Vector3.Lerp(transform.position, target, moveSpeed * Time.deltaTime);
+                if (Vector3.Distance(player.position, transform.position) > 7)
+                {
+                    Vector3 target = player.position;
+                    target.y = 0;
+                    transform.position = Vector3.Lerp(transform.position, target, moveSpeed * Time.deltaTime);
+                }
+                closeEnough = true;
+                // Rotates the enemy towards the target
+                var lookPos = player.position - transform.position;
+                lookPos.y = 0;
+                var rotation = Quaternion.LookRotation(lookPos);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateSpeed);
             }
-            closeEnough = true;
-            // Rotates the enemy towards the target
-            var lookPos = player.position - transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateSpeed);
-        }
-        else
-        {
-            closeEnough = false;
-        }
-        
-        if(health <= 0)
-        {
-            Destroy(gameObject);
-            //add explosion effect or something 
+            else
+            {
+                closeEnough = false;
+            }
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+
+                //add explosion effect or something 
+            }
         }
     }
 
@@ -71,5 +75,3 @@ public class ShooterBehavior : MonoBehaviour
         }
     }
 }
-
-

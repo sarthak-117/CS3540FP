@@ -19,7 +19,10 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MouseMovement();
+        if (!LevelManager.isGameOver)
+        {
+            MouseMovement();
+        }
     }
 
     void MouseMovement()

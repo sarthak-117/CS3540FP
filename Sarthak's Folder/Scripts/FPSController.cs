@@ -26,6 +26,8 @@ public class FPSController : MonoBehaviour
     public GameObject boostSFX;
     public AudioClip jumpSFX;
     public AudioClip dashSFX;
+    public int deathTimeOut = 10;
+    float timeElapsed = 0;
 
     void Start()
     {
@@ -38,7 +40,14 @@ public class FPSController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CharacterMovement();
+        if (!LevelManager.isGameOver)
+        {
+            CharacterMovement();
+        }
+        else
+        {
+            _anim.SetInteger("state", 0);
+        }
     }
 
     void CharacterMovement()
@@ -54,6 +63,7 @@ public class FPSController : MonoBehaviour
 
         if (_controller.isGrounded)
         {
+            timeElapsed = 0;
             if (Input.GetKeyDown(KeyCode.C))
             {
                 input *= boostSpeed;
@@ -87,6 +97,7 @@ public class FPSController : MonoBehaviour
         }
         else
         {
+            timeElapsed += Time.deltaTime;
             //mid-air controls
             if (Input.GetKeyDown(KeyCode.C))
             {
@@ -113,7 +124,7 @@ public class FPSController : MonoBehaviour
         // Debug.Log(movementSet);
 
         moveDirection.y -= gravity * Time.deltaTime;
-        if (moveDirection.x == 0.0f && moveDirection.z == 0.0f && !movementSet  && _controller.isGrounded)
+        if (moveDirection.x == 0.0f & moveDirection.z == 0.0f & !movementSet  & _controller.isGrounded)
         {
             _anim.SetInteger("state", 0);
             currState = FSMStates.Idle;
@@ -125,6 +136,12 @@ public class FPSController : MonoBehaviour
             currState = FSMStates.Walking;
         }
         _controller.Move(moveDirection * Time.deltaTime);
+
+        if (timeElapsed > deathTimeOut)
+        {
+            _anim.SetInteger("state", 4);
+            FindObjectOfType<LevelManager>().LevelLost();
+        }
         //transform.Translate(input);
     }
 }
