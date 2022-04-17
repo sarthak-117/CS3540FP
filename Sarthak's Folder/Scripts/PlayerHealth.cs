@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public int startingHealth = 100;
-    int currentHealth;
+    public int currentHealth;
     public Slider healthSlider;
     void Start()
     {
@@ -41,6 +41,7 @@ public class PlayerHealth : MonoBehaviour
         //Destroy(gameObject);
         Animator anim = GetComponent<Animator>();
         anim.SetInteger("state", 4);
+
         // game over using level manager here
         FindObjectOfType<LevelManager>().LevelLost();
     }

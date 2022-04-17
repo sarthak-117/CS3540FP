@@ -22,6 +22,7 @@ public class FPSController : MonoBehaviour
     public float gravity = 9.81f;
     public float jumpHeight = 10f;
     bool jetpackUsed = false;
+    public bool jetpackEnabled = true;
     bool movementSet;
     public GameObject boostSFX;
     public AudioClip jumpSFX;
@@ -44,9 +45,13 @@ public class FPSController : MonoBehaviour
         {
             CharacterMovement();
         }
-        else
+        else if (gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
         {
             _anim.SetInteger("state", 0);
+        }
+        else
+        {
+            _anim.SetInteger("state", 4);
         }
     }
 
@@ -64,7 +69,7 @@ public class FPSController : MonoBehaviour
         if (_controller.isGrounded)
         {
             timeElapsed = 0;
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C) && jetpackEnabled)
             {
                 input *= boostSpeed;
                 _anim.SetInteger("state", 3);
@@ -99,7 +104,7 @@ public class FPSController : MonoBehaviour
         {
             timeElapsed += Time.deltaTime;
             //mid-air controls
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C) && jetpackEnabled)
             {
                 input *= boostSpeed;
                 if (!jetpackUsed)
@@ -140,6 +145,7 @@ public class FPSController : MonoBehaviour
         if (timeElapsed > deathTimeOut)
         {
             _anim.SetInteger("state", 4);
+            
             FindObjectOfType<LevelManager>().LevelLost();
         }
         //transform.Translate(input);

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseLook : MonoBehaviour
+public class MouseLookTopDown : MonoBehaviour
 {
+
     // Start is called before the first frame update
     public float acceleration = 100f;
     float pitch = 0;
@@ -16,7 +17,12 @@ public class MouseLook : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerBody = transform.parent.transform;
-        cameraOffset = transform.localPosition;
+        //cameraOffset = transform.localRotation;
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -31,40 +37,23 @@ public class MouseLook : MonoBehaviour
     void MouseMovement()
     {
         float moveX = Input.GetAxis("Mouse X") * acceleration * Time.deltaTime;
-        float moveY = Input.GetAxis("Mouse Y") * acceleration * Time.deltaTime;
+        //float moveY = Input.GetAxis("Mouse Y") * acceleration * Time.deltaTime;
 
-        playerBody.Rotate(Vector3.up * moveX );
+        playerBody.Rotate(Vector3.up * moveX);
         //transform.Rotate(transform.right * moveY * acceleration);
         //yaw += moveX;
         //Debug.Log("cancer" + moveX + "Cancer 2" + moveY);
-        pitch -= moveY;
-        pitch = Mathf.Clamp(pitch, -5, 25);
-        
+        //pitch -= moveY;
+        //pitch = Mathf.Clamp(pitch, -10, 25);
 
-        transform.localRotation = Quaternion.Euler(pitch, 0, 0);
 
-        
+        transform.localRotation = Quaternion.Euler(70, moveX, 0);
+
+
         //  else
         // {
         //transform.localPosition = cameraOffset;
         //  }
         // Gizmos.DrawLine(transform.position, playerBody.position);
     }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        //transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
-        //ebug.Log("Changed");
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        //transform.localPosition = cameraOffset;
-    }
-    
-    void OnDrawGizmos()
-    {
-        //Gizmos.DrawLine(transform.position, playerBody.position);
-    }
-    
 }
