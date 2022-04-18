@@ -16,7 +16,9 @@ public class LevelManager : MonoBehaviour
     public static bool isGameOver = false;
     public AudioClip winSFX;
     public AudioClip loseSFX;
-    
+
+    // for sountracks
+    public AudioClip soundtrack;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class LevelManager : MonoBehaviour
         //set timer text
         SetTimerText();
         playerScore = 0;
+
+        AudioSource.PlayClipAtPoint(soundtrack, Camera.main.transform.position);
     }
 
     // Update is called once per frame
