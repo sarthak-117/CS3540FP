@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     float countDown;
     public int levelDuration = 100;
-    int level = 0;
+    //int level = 0;
     public static int playerScore;
     public Text scoreText;
     public Text timerText;

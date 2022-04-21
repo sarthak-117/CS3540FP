@@ -22,6 +22,8 @@ public class RocketItem : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Application.LoadLevel("Level Ver2");
+        if (other.gameObject.CompareTag("Player"))
+        FindObjectOfType<LevelManager>().LevelBeat();
+        //Application.LoadLevel("Level Ver2");
     }
 }

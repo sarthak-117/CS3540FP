@@ -7,7 +7,7 @@ public class MouseLookTopDown : MonoBehaviour
 
     // Start is called before the first frame update
     public float acceleration = 100f;
-    float pitch = 0;
+    //float pitch = 0;
     //float yaw = 0;
     Transform playerBody;
     private RaycastHit hit;
@@ -47,7 +47,7 @@ public class MouseLookTopDown : MonoBehaviour
         //pitch = Mathf.Clamp(pitch, -10, 25);
 
 
-        transform.localRotation = Quaternion.Euler(70, moveX, 0);
+        transform.localRotation = Quaternion.Euler(55, moveX, 0);
 
 
         //  else

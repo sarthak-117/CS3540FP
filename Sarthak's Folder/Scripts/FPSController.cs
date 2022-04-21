@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FPSController : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class FPSController : MonoBehaviour
     public float boostHeight = 10f;
     public float gravity = 9.81f;
     public float jumpHeight = 10f;
-    bool jetpackUsed = false;
+    bool jetpackUsed;
     public bool jetpackEnabled = true;
     bool movementSet;
     public GameObject boostSFX;
@@ -30,12 +31,20 @@ public class FPSController : MonoBehaviour
     public int deathTimeOut = 10;
     float timeElapsed = 0;
 
+    public float maxFuel = 2f;
+    public float thrustForce = 0.5f;
+    public ParticleSystem effect;
+    public float currFuel;
+    public Slider fuelSlider;
+    float currThrust;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _anim = GetComponent<Animator>();
         _anim.SetInteger("state", 0);
         currState = FSMStates.Idle;
+        currFuel = maxFuel;
+        currThrust = thrustForce;
     }
 
     // Update is called once per frame
@@ -53,6 +62,11 @@ public class FPSController : MonoBehaviour
         {
             _anim.SetInteger("state", 4);
         }
+        if (jetpackEnabled)
+        {
+            Debug.Log(currFuel);
+            fuelSlider.value = currFuel;
+        }
     }
 
     void CharacterMovement()
@@ -68,21 +82,25 @@ public class FPSController : MonoBehaviour
 
         if (_controller.isGrounded)
         {
+            jetpackUsed = false;
             timeElapsed = 0;
-            if (Input.GetKeyDown(KeyCode.C) && jetpackEnabled)
+            currThrust = thrustForce;
+            if (Input.GetKey(KeyCode.LeftShift) && jetpackEnabled && currFuel > 0)
             {
-                input *= boostSpeed;
+                input += Vector3.up * (gravity * Time.deltaTime + 0.5f);
+                AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
+                jetpackUsed = true;
+                currFuel -= Time.deltaTime;
                 _anim.SetInteger("state", 3);
-                currState = FSMStates.Dashing;
-                movementSet = true;
+
                 Vector3 posn = transform.position;
                 GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
                 boost.transform.parent = gameObject.transform;
                 boost.transform.Rotate(new Vector3(0, 180, 0));
-                AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
+                Destroy(boost, 1);
             }
             moveDirection = input;
-            jetpackUsed = false;
+            
             if (Input.GetButton("Jump"))
             {
                 // jump = 1/2(V/g)
@@ -97,34 +115,47 @@ public class FPSController : MonoBehaviour
             }
             else
             {
-               moveDirection.y = 0.0f;
+                if (!jetpackUsed)
+                {
+                    moveDirection.y = 0.0f;
+                }               
+            }
+            if (currFuel < maxFuel && !jetpackUsed)
+            {
+                currFuel += Time.deltaTime;
+                Debug.Log("Fueling");
             }
         }
         else
         {
             timeElapsed += Time.deltaTime;
             //mid-air controls
-            if (Input.GetKeyDown(KeyCode.C) && jetpackEnabled)
+            if (Input.GetKey(KeyCode.LeftShift) && jetpackEnabled && currFuel > 0)
             {
-                input *= boostSpeed;
-                if (!jetpackUsed)
-                {
-                    moveDirection = Vector3.Lerp(moveDirection, moveDirection + Vector3.up * boostHeight, Time.deltaTime * boostSpeed);
-                    _anim.SetInteger("state", 3);
-                    currState = FSMStates.Dashing;
-                    jetpackUsed = true;
-                    Vector3 posn = transform.position;
-                    GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
-                    boost.transform.parent = gameObject.transform;
-                    boost.transform.Rotate(new Vector3(0, 180, 0));
-                    AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
-                }
+                jetpackUsed = true;
+                //input += Vector3.up * currThrust;
+                moveDirection.y += (gravity * Time.deltaTime + thrustForce);
+                currThrust += 0.2f;
+                AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
+                currFuel -= Time.deltaTime;
+                _anim.SetInteger("state", 3);
+
+                Vector3 posn = transform.position;
+                GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
+                boost.transform.parent = gameObject.transform;
+                boost.transform.Rotate(new Vector3(0, 180, 0));
+                Destroy(boost, 1);
+            }
+            else if (currFuel <= 0)
+            {
+                //moveDirection.y -= (gravity * Time.deltaTime);
             }
             input.y = moveDirection.y;
             moveDirection = Vector3.Lerp(moveDirection, input, Time.deltaTime);
 
             // works like a jetpack, need to find a way to set a boost limit
         }
+
 
         // Debug.Log(movementSet);
 
