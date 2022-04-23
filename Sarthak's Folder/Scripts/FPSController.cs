@@ -160,6 +160,7 @@ public class FPSController : MonoBehaviour
         // Debug.Log(movementSet);
 
         moveDirection.y -= gravity * Time.deltaTime;
+        
         if (moveDirection.x == 0.0f & moveDirection.z == 0.0f & !movementSet  & _controller.isGrounded)
         {
             _anim.SetInteger("state", 0);
