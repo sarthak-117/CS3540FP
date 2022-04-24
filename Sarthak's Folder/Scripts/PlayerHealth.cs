@@ -41,7 +41,6 @@ public class PlayerHealth : MonoBehaviour
         //Destroy(gameObject);
         Animator anim = GetComponent<Animator>();
         anim.SetInteger("state", 4);
-
         // game over using level manager here
         FindObjectOfType<LevelManager>().LevelLost();
     }

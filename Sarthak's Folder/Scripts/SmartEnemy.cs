@@ -61,7 +61,7 @@ public class SmartEnemy : MonoBehaviour
         distanceToPlayer = Vector3.Distance
             (transform.position, player.position);
 
-        //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
+
         switch (currentState)
         {
             case FSMStates.Patrol:
@@ -80,7 +80,7 @@ public class SmartEnemy : MonoBehaviour
     void Attack()
     {
         nextDestination = player.position;
-        //nextDestination.y = 0;
+
         if(distanceToPlayer <= attackDistance)
         {
             currentState = FSMStates.Attack;
@@ -123,7 +123,6 @@ public class SmartEnemy : MonoBehaviour
     {
         anim.SetInteger("changeAnimation", 1);
         nextDestination = player.position;
-        //nextDestination.y = 0;
         agent.stoppingDistance = attackDistance;
         agent.speed = 5;
         
@@ -174,7 +173,7 @@ public class SmartEnemy : MonoBehaviour
         currentDestinationIndex = (currentDestinationIndex + 1) % wanderPoints.Length;
 
         nextDestination = wanderPoints[currentDestinationIndex].transform.position;
-        //nextDestination.y = 0;
+
         //agent.SetDestination(nextDestination);
     }
 

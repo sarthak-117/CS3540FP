@@ -4171,6 +4171,7 @@ GameObject:
   - component: {fileID: 1418344586621917338}
   - component: {fileID: 1418344586621917348}
   - component: {fileID: 1418344586621917349}
+  - component: {fileID: 8087099071154363776}
   m_Layer: 0
   m_Name: Character_Augmented_Male_01 1
   m_TagString: Player
@@ -4258,7 +4259,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417911619843237906}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eccb90ea543c4b2459abc7ec8cc82f94, type: 3}
   m_Name: 
@@ -4293,6 +4294,33 @@ MonoBehaviour:
   startingHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 0}
+--- !u!114 &8087099071154363776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417911619843237906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2db7b230a6f1c94db1abc03d68ab7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  boostSpeed: 50
+  boostHeight: 10
+  gravity: 9.81
+  jumpHeight: 10
+  jetpackEnabled: 1
+  boostSFX: {fileID: 0}
+  jumpSFX: {fileID: 0}
+  dashSFX: {fileID: 0}
+  deathTimeOut: 10
+  maxFuel: 2
+  thrustForce: 0.5
+  effect: {fileID: 0}
+  currFuel: 0
+  fuelSlider: {fileID: 0}
 --- !u!1 &1750395375557812074
 GameObject:
   m_ObjectHideFlags: 0

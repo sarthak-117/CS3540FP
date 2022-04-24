@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FPSController : MonoBehaviour
 {
     // Start is called before the first frame update
+
     public enum FSMStates
     {
         Idle,
@@ -74,7 +75,7 @@ public class FPSController : MonoBehaviour
         movementSet = false;
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-        
+
         input = (transform.right * moveHorizontal + transform.forward * moveVertical).normalized;
         input *= moveSpeed;
 
@@ -100,7 +101,7 @@ public class FPSController : MonoBehaviour
                 Destroy(boost, 1);
             }
             moveDirection = input;
-            
+
             if (Input.GetButton("Jump"))
             {
                 // jump = 1/2(V/g)
@@ -118,7 +119,7 @@ public class FPSController : MonoBehaviour
                 if (!jetpackUsed)
                 {
                     moveDirection.y = 0.0f;
-                }               
+                }
             }
             if (currFuel < maxFuel && !jetpackUsed)
             {
@@ -160,8 +161,8 @@ public class FPSController : MonoBehaviour
         // Debug.Log(movementSet);
 
         moveDirection.y -= gravity * Time.deltaTime;
-        
-        if (moveDirection.x == 0.0f & moveDirection.z == 0.0f & !movementSet  & _controller.isGrounded)
+
+        if (moveDirection.x == 0.0f & moveDirection.z == 0.0f & !movementSet & _controller.isGrounded)
         {
             _anim.SetInteger("state", 0);
             currState = FSMStates.Idle;
@@ -177,7 +178,7 @@ public class FPSController : MonoBehaviour
         if (timeElapsed > deathTimeOut)
         {
             _anim.SetInteger("state", 4);
-            
+
             FindObjectOfType<LevelManager>().LevelLost();
         }
         //transform.Translate(input);

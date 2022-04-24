@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     float countDown;
     public int levelDuration = 100;
-    //int level = 0;
+    int level = 0;
     public static int playerScore;
     public Text scoreText;
     public Text timerText;
@@ -16,9 +16,7 @@ public class LevelManager : MonoBehaviour
     public static bool isGameOver = false;
     public AudioClip winSFX;
     public AudioClip loseSFX;
-
-    // for sountracks
-    public AudioClip soundtrack;
+    
 
     private void Awake()
     {
@@ -34,8 +32,6 @@ public class LevelManager : MonoBehaviour
         //set timer text
         SetTimerText();
         playerScore = 0;
-
-        AudioSource.PlayClipAtPoint(soundtrack, Camera.main.transform.position);
     }
 
     // Update is called once per frame
@@ -91,7 +87,6 @@ public class LevelManager : MonoBehaviour
         scoreText.GetComponent<Text>().enabled = false;
         timerText.GetComponent<Text>().enabled = false;
         // play level status sfx
-        FindObjectOfType<Camera>().GetComponent<AudioSource>().Stop();
         AudioSource.PlayClipAtPoint(statusSFX, Camera.main.transform.position);
         // sfx clip is received as an argument
 
@@ -123,8 +118,8 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         Debug.Log(SceneManager.GetActiveScene().name);
-        //level++;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        level++;
+        SceneManager.LoadScene(level);
         // can use getActiveScene to get currently loaded scene, can be used to specify next scene via index through build
     }
 
@@ -139,7 +134,7 @@ public class LevelManager : MonoBehaviour
         //Camera.main.GetComponent<AudioSource>().pitch = 2;
         if (SceneManager.GetActiveScene().buildIndex != 2)
         {
-            Invoke("LoadNextLevel", 5);
+            //Invoke("LoadNextLevel", 5);
         }
     }
 

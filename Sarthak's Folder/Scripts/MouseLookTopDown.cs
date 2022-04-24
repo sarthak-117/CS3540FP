@@ -47,7 +47,7 @@ public class MouseLookTopDown : MonoBehaviour
         //pitch = Mathf.Clamp(pitch, -10, 25);
 
 
-        transform.localRotation = Quaternion.Euler(55, moveX, 0);
+        transform.localRotation = Quaternion.Euler(50, moveX, 0);
 
 
         //  else

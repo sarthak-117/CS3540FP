@@ -18,7 +18,11 @@ public class LightingScript : MonoBehaviour
         var lights = FindObjectsOfType<Light>();
         foreach (Light l in lights)
         {
-            l.color = Color.Lerp(Color.red, Color.yellow, Mathf.PingPong(Time.time, 1));
+            if (!l.transform.parent.gameObject.CompareTag("Enemy"))
+            {
+                l.color = Color.Lerp(Color.red, Color.yellow, Mathf.PingPong(Time.time, 1));
+            }
+            
             //l.intensity = Mathf.PingPong(Time.time, 5);
         }
         

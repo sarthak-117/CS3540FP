@@ -73,6 +73,7 @@ public class DroneShooter : MonoBehaviour
             //Gets the vertical angle between forward vector and target position vector
             var forward = transform.forward;
             var target = player.position - transform.position;
+            target.y = target.y + 1;
             target.x = (forward.x / forward.z) * target.z;
             target.z = (forward.z / forward.x) * target.x;
             float angle = Vector3.Angle(forward, target);
