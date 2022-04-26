@@ -49,7 +49,7 @@ public class FPSController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!LevelManager.isGameOver)
         {

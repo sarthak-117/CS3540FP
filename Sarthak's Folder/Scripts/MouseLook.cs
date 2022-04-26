@@ -35,7 +35,7 @@ public class MouseLook : MonoBehaviour
         //yaw += moveX;
         //Debug.Log("cancer" + moveX + "Cancer 2" + moveY);
         pitch -= moveY;
-        pitch = Mathf.Clamp(pitch, -10, 25);
+        pitch = Mathf.Clamp(pitch, 0, 15);
         
 
         transform.localRotation = Quaternion.Euler(pitch, 0, 0);

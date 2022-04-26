@@ -188,7 +188,7 @@ public class SmartEnemy : MonoBehaviour
 
     }
     */
-
+    /*
     private void OnDrawGizmos()
     {
 
@@ -213,7 +213,7 @@ public class SmartEnemy : MonoBehaviour
         Debug.DrawLine(enemyEyes.position, leftRayPoint, Color.yellow);
         Debug.DrawLine(enemyEyes.position, rightRayPoint, Color.yellow);
     }
-
+    */
 
     bool IsPlayerInClearFOV()
     {

@@ -47,7 +47,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!LevelManager.isGameOver)
         {
@@ -71,8 +71,8 @@ public class ThirdPersonMouseLook : MonoBehaviour
     void CharacterMovement()
     {
         movementSet = false;
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
 
         input = (transform.right * moveHorizontal + transform.forward * moveVertical).normalized;
         input *= moveSpeed;
@@ -121,7 +121,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
             }
             if (currFuel < maxFuel && !jetpackUsed)
             {
-                currFuel += Time.deltaTime;
+                currFuel += Time.deltaTime / 2;
                 Debug.Log("Fueling");
             }
         }
@@ -159,7 +159,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
         // Debug.Log(movementSet);
 
         moveDirection.y -= gravity * Time.deltaTime;
-
+        
         if (input.magnitude > 0.01f)
         {
             float cameraYawRotation = Camera.main.transform.eulerAngles.y;

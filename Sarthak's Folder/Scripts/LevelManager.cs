@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     public static bool isGameOver = false;
     public AudioClip winSFX;
     public AudioClip loseSFX;
-    
+    public bool timedLevel;
 
     private void Awake()
     {
@@ -30,7 +30,11 @@ public class LevelManager : MonoBehaviour
         // set countDown to level duration specified in the inspector
         countDown = levelDuration;
         //set timer text
-        SetTimerText();
+        if (timedLevel)
+        {
+            SetTimerText();
+        }
+        
         playerScore = 0;
     }
 
@@ -43,7 +47,10 @@ public class LevelManager : MonoBehaviour
         {
             if (countDown > 0)
             {
-                countDown -= Time.deltaTime;
+                if (timedLevel)
+                {
+                    countDown -= Time.deltaTime;
+                }                
             }
             else
             {
@@ -51,7 +58,10 @@ public class LevelManager : MonoBehaviour
                 LevelLost();
 
             }
-            SetTimerText();
+            if (timedLevel)
+            {
+                SetTimerText();
+            }            
             SetScoreText();
         }
 
