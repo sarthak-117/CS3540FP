@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        if (currentHealth > 0 && currentHealth <= 100)
+        if (currentHealth > 0 && currentHealth <= 100 && !LevelManager.isGameOver)
         {
             currentHealth -= damageAmount;
             Debug.Log("health: " + currentHealth);

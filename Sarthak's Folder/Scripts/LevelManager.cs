@@ -129,7 +129,7 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log(SceneManager.GetActiveScene().name);
         level++;
-        SceneManager.LoadScene(level);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         // can use getActiveScene to get currently loaded scene, can be used to specify next scene via index through build
     }
 
@@ -144,7 +144,7 @@ public class LevelManager : MonoBehaviour
         //Camera.main.GetComponent<AudioSource>().pitch = 2;
         if (SceneManager.GetActiveScene().buildIndex != 2)
         {
-            //Invoke("LoadNextLevel", 5);
+            Invoke("LoadNextLevel", 5);
         }
     }
 

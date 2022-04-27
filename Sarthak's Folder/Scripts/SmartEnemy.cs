@@ -97,7 +97,7 @@ public class SmartEnemy : MonoBehaviour
         agent.SetDestination(nextDestination);
         anim.SetInteger("changeAnimation", 2);
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        Debug.Log(distanceToPlayer);
+        //Debug.Log(distanceToPlayer);
         if (timeStamp <= Time.time)
         {
             if(distanceToPlayer < 4)
@@ -223,7 +223,7 @@ public class SmartEnemy : MonoBehaviour
         {
             if (Physics.Raycast(enemyEyes.position, directionToPlayer, out hit, chaseDistance))
             {
-                Debug.Log(hit.collider.tag);
+                //Debug.Log(hit.collider.tag);
                 if (hit.collider.CompareTag("Player"))
                 {
                     return true;

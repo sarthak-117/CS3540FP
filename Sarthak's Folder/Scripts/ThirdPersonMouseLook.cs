@@ -40,10 +40,11 @@ public class ThirdPersonMouseLook : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _anim = GetComponent<Animator>();
-        _anim.SetInteger("state", 0);
+        //_anim.SetInteger("state", 0);
         currState = FSMStates.Idle;
         currFuel = maxFuel;
         currThrust = thrustForce;
+        
     }
 
     // Update is called once per frame
@@ -53,7 +54,11 @@ public class ThirdPersonMouseLook : MonoBehaviour
         {
             CharacterMovement();
         }
-        else if (gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
+        else if (transform.position.y < 0)
+        {
+            _anim.SetInteger("state", 4);
+        }
+        else if (GetComponent<PlayerHealth>().currentHealth > 0)
         {
             _anim.SetInteger("state", 0);
         }
@@ -61,9 +66,10 @@ public class ThirdPersonMouseLook : MonoBehaviour
         {
             _anim.SetInteger("state", 4);
         }
+        Debug.Log(_controller.isGrounded);
         if (jetpackEnabled)
         {
-            Debug.Log(currFuel);
+            //Debug.Log(currFuel);
             fuelSlider.value = currFuel;
         }
     }
@@ -82,7 +88,6 @@ public class ThirdPersonMouseLook : MonoBehaviour
         if (_controller.isGrounded)
         {
             jetpackUsed = false;
-            timeElapsed = 0;
             currThrust = thrustForce;
             if (Input.GetKey(KeyCode.LeftShift) && jetpackEnabled && currFuel > 0)
             {
@@ -91,7 +96,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
                 jetpackUsed = true;
                 currFuel -= Time.deltaTime;
                 _anim.SetInteger("state", 3);
-
+                movementSet = true;
                 Vector3 posn = transform.position;
                 GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
                 boost.transform.parent = gameObject.transform;
@@ -112,14 +117,13 @@ public class ThirdPersonMouseLook : MonoBehaviour
                 movementSet = true;
                 AudioSource.PlayClipAtPoint(jumpSFX, Camera.main.transform.position);
             }
-            else
+            else if (!jetpackUsed || !jetpackEnabled)
             {
-                if (!jetpackUsed)
-                {
-                    moveDirection.y = 0.0f;
-                }
+                moveDirection.y = -1 * gravity * Time.deltaTime;
             }
-            if (currFuel < maxFuel && !jetpackUsed)
+            
+
+            if (currFuel < maxFuel && !jetpackUsed && jetpackEnabled)
             {
                 currFuel += Time.deltaTime / 2;
                 Debug.Log("Fueling");
@@ -127,7 +131,6 @@ public class ThirdPersonMouseLook : MonoBehaviour
         }
         else
         {
-            timeElapsed += Time.deltaTime;
             //mid-air controls
             if (Input.GetKey(KeyCode.LeftShift) && jetpackEnabled && currFuel > 0)
             {
@@ -138,28 +141,27 @@ public class ThirdPersonMouseLook : MonoBehaviour
                 AudioSource.PlayClipAtPoint(dashSFX, Camera.main.transform.position);
                 currFuel -= Time.deltaTime;
                 _anim.SetInteger("state", 3);
-
+                movementSet = true;
                 Vector3 posn = transform.position;
                 GameObject boost = Instantiate(boostSFX, posn, transform.rotation);
                 boost.transform.parent = gameObject.transform;
                 boost.transform.Rotate(new Vector3(0, 180, 0));
                 Destroy(boost, 1);
             }
-            else if (currFuel <= 0)
-            {
-                //moveDirection.y -= (gravity * Time.deltaTime);
-            }
+            
             input.y = moveDirection.y;
             moveDirection = Vector3.Lerp(moveDirection, input, Time.deltaTime);
 
             // works like a jetpack, need to find a way to set a boost limit
         }
 
-
         // Debug.Log(movementSet);
 
         moveDirection.y -= gravity * Time.deltaTime;
-        
+        if (transform.position.y < 0)
+        {
+            FindObjectOfType<LevelManager>().LevelLost();
+        }
         if (input.magnitude > 0.01f)
         {
             float cameraYawRotation = Camera.main.transform.eulerAngles.y;
@@ -179,7 +181,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
             currState = FSMStates.Walking;
         }
         _controller.Move(moveDirection * Time.deltaTime);
-
+        //Debug.Log(timeElapsed);
         if (timeElapsed > deathTimeOut)
         {
             _anim.SetInteger("state", 4);
