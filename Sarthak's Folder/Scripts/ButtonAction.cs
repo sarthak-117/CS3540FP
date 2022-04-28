@@ -5,13 +5,22 @@ using UnityEngine.UI;
 
 public class ButtonAction : MonoBehaviour
 {
-    Transform player;
-    Text interactText;
+    public Transform player;
+    public Text interactText;
     public float interactDistance = 3f;
-    bool pressed = false;
+    bool pressed;
+    GameObject bossControl;
+   // public Canvas interact;
+    bool flip;
+
+    Canvas current;
     // Start is called before the first frame update
     void Start()
     {
+        pressed = false;
+        flip = false;
+        bossControl = GameObject.FindGameObjectWithTag("BossControl");
+
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -19,7 +28,6 @@ public class ButtonAction : MonoBehaviour
         if (interactText == null)
         {
             interactText = GameObject.FindGameObjectWithTag("interactButton").GetComponent<Text>();
-
         }
     }
 
@@ -30,17 +38,24 @@ public class ButtonAction : MonoBehaviour
             && !pressed)
         {
             interactText.enabled = true;
-        }
-        else
-        {
-            interactText.enabled = false;
+            flip = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.I) && interactText.enabled)
+        if (!flip && Vector3.Distance(player.position, transform.position) > interactDistance)
+        {
+            interactText.enabled = false;
+            flip = true;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.I) && Vector3.Distance(player.position, transform.position) < interactDistance)
         {
             interactText.enabled = false;
             pressed = true;
+           
+            BossFightManager.switchesLeft--;
+            FindObjectOfType<BossFightManager>().UpdateSwitches();
+            StartCoroutine(bossControl.GetComponent<BossController>().nextLine());
         }
-
     }
 }

@@ -27,7 +27,7 @@ public class DroneShooter : MonoBehaviour
     void Update()
     {
         hover();
-        if (!LevelManager.isGameOver)
+        if (!LevelManager.isGameOver && !BossFightManager.isGameOver)
         {
 
 

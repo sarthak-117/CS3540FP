@@ -11,8 +11,10 @@ public class NPCInteraction : MonoBehaviour
     Text speech;
     public float interactDistance = 3f;
     bool talking = false;
+    bool doneTalking = false;
     public string speechText;
     string[] phrases;
+    Image background;
     void Start()
     {
         if (player == null)
@@ -30,6 +32,7 @@ public class NPCInteraction : MonoBehaviour
             speech = GameObject.FindGameObjectWithTag("Speech").GetComponent<Text>();
 
         }
+
         phrases = speechText.Split('.');
     }
 
@@ -40,6 +43,7 @@ public class NPCInteraction : MonoBehaviour
             && !talking)
         {
             interactText.enabled = true;
+            background.enabled = true;
         }
         else
         {
@@ -50,6 +54,7 @@ public class NPCInteraction : MonoBehaviour
         {
             talking = true;
             speech.enabled = true;
+            interactText.enabled = false;
             StartCoroutine(Speaking());
         }
     }
@@ -61,6 +66,8 @@ public class NPCInteraction : MonoBehaviour
             speech.text = s;
             yield return new WaitForSeconds(6);
         }
+        speech.enabled = false;
+        
         /*
         speech.text = "Computer: Oh hi... You're awake!";
         yield return new WaitForSeconds(3);

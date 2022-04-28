@@ -61,19 +61,25 @@ public class SmartEnemy : MonoBehaviour
         distanceToPlayer = Vector3.Distance
             (transform.position, player.position);
 
-
-        switch (currentState)
+        if (!LevelManager.isGameOver && !BossFightManager.isGameOver)
         {
-            case FSMStates.Patrol:
-                Patrol();
-                break;
-            case FSMStates.Chase:
-                Chase();
-                break;
-            case FSMStates.Attack:
-                Attack();
-                break;
+            switch (currentState)
+            {
+                case FSMStates.Patrol:
+                    Patrol();
+                    break;
+                case FSMStates.Chase:
+                    Chase();
+                    break;
+                case FSMStates.Attack:
+                    Attack();
+                    break;
 
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

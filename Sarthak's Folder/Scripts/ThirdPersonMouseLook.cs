@@ -36,6 +36,7 @@ public class ThirdPersonMouseLook : MonoBehaviour
     public float currFuel;
     public Slider fuelSlider;
     float currThrust;
+    
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -44,13 +45,12 @@ public class ThirdPersonMouseLook : MonoBehaviour
         currState = FSMStates.Idle;
         currFuel = maxFuel;
         currThrust = thrustForce;
-        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!LevelManager.isGameOver)
+        if (!LevelManager.isGameOver && !BossFightManager.isGameOver)
         {
             CharacterMovement();
         }

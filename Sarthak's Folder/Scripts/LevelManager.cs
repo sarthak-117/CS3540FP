@@ -142,7 +142,7 @@ public class LevelManager : MonoBehaviour
         SetGameOverStatus("YOU WIN!", winSFX);
         // speed up background music
         //Camera.main.GetComponent<AudioSource>().pitch = 2;
-        if (SceneManager.GetActiveScene().buildIndex != 2)
+        if (SceneManager.GetActiveScene().buildIndex != 3)
         {
             Invoke("LoadNextLevel", 5);
         }

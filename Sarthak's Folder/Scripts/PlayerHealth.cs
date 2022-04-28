@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public int startingHealth = 100;
     public int currentHealth;
     public Slider healthSlider;
+    public BossFightManager bfm;
     void Start()
     {
         currentHealth = startingHealth;
@@ -22,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        if (currentHealth > 0 && currentHealth <= 100 && !LevelManager.isGameOver)
+        if (currentHealth > 0 && currentHealth <= 100 && (!LevelManager.isGameOver && !BossFightManager.isGameOver))
         {
             currentHealth -= damageAmount;
             Debug.Log("health: " + currentHealth);
@@ -42,7 +43,14 @@ public class PlayerHealth : MonoBehaviour
         Animator anim = GetComponent<Animator>();
         anim.SetInteger("state", 4);
         // game over using level manager here
-        FindObjectOfType<LevelManager>().LevelLost();
+        if (bfm == null)
+        {
+            FindObjectOfType<LevelManager>().LevelLost();
+        }
+        else
+        {
+            FindObjectOfType<BossFightManager>().LevelLost();
+        }        
     }
 }
 
