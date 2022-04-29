@@ -14,8 +14,6 @@ public class SmartEnemy : MonoBehaviour
     int currentDestinationIndex = 0;
     public Transform enemyEyes;
     public string WanderPointTag = "WanderPoint";
-
-
     public float chaseDistance = 10;
     public float fieldOfView = 45;
     public float attackDistance = 4;
@@ -182,44 +180,6 @@ public class SmartEnemy : MonoBehaviour
 
         //agent.SetDestination(nextDestination);
     }
-
-    /*
-    void FaceTarget(Vector3 target)
-    {
-        Vector3 directionToTarget = (target - transform.position).normalized;
-        directionToTarget.y = 0;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-        transform.rotation = Quaternion.Slerp
-            (transform.rotation, lookRotation, 10 * Time.deltaTime);
-
-    }
-    */
-    /*
-    private void OnDrawGizmos()
-    {
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
-
-        //chase
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, chaseDistance);
-
-        Vector3 frontRayPoint = enemyEyes.position + (enemyEyes.forward * chaseDistance);
-        Vector3 leftRayPoint = Quaternion.Euler(0, fieldOfView * 0.5f, 0)  * frontRayPoint;
-        Vector3 rightRayPoint = Quaternion.Euler(0, -fieldOfView * 0.5f, 0)  * frontRayPoint;
-
-        //float halfFOV = fieldOfView / 2.0f;
-        // Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, enemyEyes.up);// * enemyEyes.rotation;
-        // Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, enemyEyes.up);// * enemyEyes.rotation;
-        // Vector3 leftRayPoint = leftRayRotation * frontRayPoint;
-        // Vector3 rightRayPoint = rightRayRotation * frontRayPoint;
-
-        Debug.DrawLine(enemyEyes.position, frontRayPoint, Color.cyan);
-        Debug.DrawLine(enemyEyes.position, leftRayPoint, Color.yellow);
-        Debug.DrawLine(enemyEyes.position, rightRayPoint, Color.yellow);
-    }
-    */
 
     bool IsPlayerInClearFOV()
     {

@@ -10,7 +10,6 @@ public class ButtonAction : MonoBehaviour
     public float interactDistance = 3f;
     bool pressed;
     GameObject bossControl;
-   // public Canvas interact;
     bool flip;
 
     Canvas current;

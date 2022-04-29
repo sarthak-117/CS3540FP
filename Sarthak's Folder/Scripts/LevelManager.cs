@@ -97,6 +97,7 @@ public class LevelManager : MonoBehaviour
         scoreText.GetComponent<Text>().enabled = false;
         timerText.GetComponent<Text>().enabled = false;
         // play level status sfx
+        FindObjectOfType<Camera>().GetComponent<AudioSource>().Stop();
         AudioSource.PlayClipAtPoint(statusSFX, Camera.main.transform.position);
         // sfx clip is received as an argument
 

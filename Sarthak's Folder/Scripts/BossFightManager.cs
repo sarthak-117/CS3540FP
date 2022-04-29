@@ -8,8 +8,6 @@ public class BossFightManager : MonoBehaviour
 {
     float countDown;
     public int levelDuration = 100;
-    //int level = 0;
-    //public static int playerScore;
     public Text scoreText;
     public Text timerText;
     public Text stateText;
@@ -29,10 +27,13 @@ public class BossFightManager : MonoBehaviour
         
         // set countDown to level duration specified in the inspector
         countDown = levelDuration;
-        //set timer text
+        
+        // set up variables to indicate the bossfight state
         triggeredBoss = false;
         timerText.GetComponent<Text>().enabled = false;
         scoreText.GetComponent<Text>().enabled = false;
+
+        // initialize the switches count to the number of switches in the level
         switchesLeft = 4;
         enemiesList = new List<GameObject>();
         LevelManager.isGameOver = false;
@@ -59,16 +60,13 @@ public class BossFightManager : MonoBehaviour
                 LevelLost();
 
             }
+            // once boss is triggered, start the countdown
             if (triggeredBoss)
             {
                 SetTimerText();
                 SetScoreText();
             }            
         }
-        //switchesLeft = Switch.switchCount;
-
-        //Debug.Log("Countdown" + countDown);
-        // update timer text
     }
 
     void SetTimerText()
@@ -81,7 +79,7 @@ public class BossFightManager : MonoBehaviour
     {
         /// <summary>method to set timerText to current countDown value</summary>
         scoreText.text =
-            "Buttons left: " + PickupActions.pickupCount;
+            "Buttons left: " + switchesLeft;
     }
 
     void SetGameOverStatus(string gameTextMessage, AudioClip statusSFX)
@@ -91,17 +89,20 @@ public class BossFightManager : MonoBehaviour
 
         // set isGameOver 
         isGameOver = true;
-        // update gameText UI component with appropriate message and activate it
+        // update UI component with appropriate message and activate it
         // message is received as an argument
         stateText.text = gameTextMessage;
         stateText.GetComponent<Text>().enabled = true;
         scoreText.GetComponent<Text>().enabled = false;
         timerText.GetComponent<Text>().enabled = false;
+        // Pause current background music
+        FindObjectOfType<Camera>().GetComponent<AudioSource>().Stop();
         // play level status sfx
         AudioSource.PlayClipAtPoint(statusSFX, Camera.main.transform.position);
         // sfx clip is received as an argument
 
     }
+    // Call this method when the player runs out of time or is dead.
     public void LevelLost()
     {
         // call SetGameOverStatus with "GAME OVER!"
@@ -111,13 +112,14 @@ public class BossFightManager : MonoBehaviour
         Invoke("LoadCurrentLevel", 3);
         //Invoke("LoadNextLevel", 5);
     }
-
+    // Used to reload the current level a player is on
     public void LoadCurrentLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // can use getActiveScene to get currently loaded scene, can be used to specify next scene via index through build
     }
 
+    // Used to progress the player to the next level if they win using build index variables
     public void LoadNextLevel()
     {
         Debug.Log(SceneManager.GetActiveScene().name);
@@ -127,10 +129,7 @@ public class BossFightManager : MonoBehaviour
     }
 
     public void LevelBeat()
-    {
-        /// <summary>method to specify what happens when the level is won</summary>
-        ///
-
+    { 
         // call SetGameOverStatus with "YOU WIN!"
         SetGameOverStatus("YOU WIN!", winSFX);
         // speed up background music
@@ -149,6 +148,7 @@ public class BossFightManager : MonoBehaviour
         UpdateSwitches();
     }
 
+    // manages the final state of the boss fight by handling any changes to the remaining button count
     public void UpdateSwitches()
     {
         if (switchesLeft == 4)

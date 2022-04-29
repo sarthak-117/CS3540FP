@@ -31,9 +31,6 @@ public class MouseLook : MonoBehaviour
         float moveY = Input.GetAxis("Mouse Y") * acceleration * Time.deltaTime;
 
         playerBody.Rotate(Vector3.up * moveX );
-        //transform.Rotate(transform.right * moveY * acceleration);
-        //yaw += moveX;
-        //Debug.Log("cancer" + moveX + "Cancer 2" + moveY);
         pitch -= moveY;
         pitch = Mathf.Clamp(pitch, 0, 15);
         
